@@ -980,6 +980,8 @@ mark, .busca-hl{ background:#ffe08a; color:#2b323c; border-radius:3px; padding:0
 .g-fe .prod-tx strong{ color:#fff; font-size:18px; } .g-fe .prod-tx span{ color:#cdd9ec; font-size:13.5px; }
 .g-fe .prod-go svg{ stroke:#ff9a5a; width:20px; height:20px; }
 .g-fe + .macro-divider, .macro-divider:has(+ .g-fe){ }
+.g-inst .prod{ border-left:4px solid var(--blue-600); }
+.g-inst .prod-ic{ background:var(--blue-600); color:#fff; }
 
 .prod-intro{ margin-top:8px; }
 </style>
@@ -1068,10 +1070,12 @@ const SCREENS = {};
 /* ===================== Outros produtos (lista em LISTA_DE_PRODUTOS_sites_paineis_e_dashboards.xlsx) ===================== */
 const GH = "https://marceloabelheira-cmd.github.io/";
 const PRODUTOS = [
+  {g:"Canais oficiais da SEDEC-RJ", icon:"home", cls:"inst", itens:[
+    ["Site da SEDEC-RJ","Secretaria de Estado de Defesa Civil do Rio de Janeiro", "https://www.defesacivil.rj.gov.br/", false, "home"],
+    ["Instagram da SEDEC-RJ","@defesacivil_rj", "https://www.instagram.com/defesacivil_rj/", false, "radio"]]},
   {g:"Painel Integrado", cls:"fe", wide:true, logo:"logoFE", itens:[
     ["Painel Integrado — Força Especializada da SEDEC-RJ","Visão integrada de monitoramento e ocorrências (SISGEO) da FE-SEDEC", "https://analistadegeoinformacao.github.io/painel-fe-sedec-rj/#amb=sisgeo"]]},
   {g:"Incêndios Florestais", icon:"fire", itens:[
-    ["Incêndios Florestais — GIGR 2025","Quantitativo por dia e eventos significativos (Matriz ICR)", GH+"IF_somenteem2025/"],
     ["Incêndios Florestais — 2025 e 2026","Quantitativo por dia e eventos significativos (Matriz ICR)", GH+"IF2025/#2026"]]},
   {g:"Chuvas", icon:"storm", itens:[
     ["Chuvas — nov/25 a abr/26","Municípios com impactos significativos (Matriz ICR)", GH+"ESCALAv4/"],
@@ -1093,6 +1097,7 @@ const PRODUTOS = [
   {g:"Desastres Tecnológicos", icon:"hazard", cls:"tec", wide:true, itens:[
     ["Desastres Tecnológicos — município do Rio de Janeiro","2011 a 2025 · eventos significativos (Matriz ICR)", GH+"MATRIZICR_desastrestecnologicosRio_dashboard/"]]},
   {g:"Desastre Meteorológico e/ou Climatológico", icon:"sun", cls:"clima", wide:true, itens:[
+    ["Excesso de Calor — Guia de Enfrentamento para Municípios","Orientações para mitigação de impactos no Estado do Rio de Janeiro", GH+"EXCESSODECALOR_guia_mitigacaodeimpactos_RJ/"],
     ["Painel de Excesso de Calor (em estudo)","Municípios com impactos significativos (Matriz ICR)", GH+"PAINEL_EXCESSODECALOR_MatrizICR/"]]}
 ];
 SCREENS.produtos = { crumb:"Outros produtos", render: () => `
@@ -1100,9 +1105,9 @@ SCREENS.produtos = { crumb:"Outros produtos", render: () => `
   <p class="section-desc">Sites, painéis e dashboards desenvolvidos para a gestão de riscos e desastres no Estado do Rio de Janeiro. Os links abrem em nova aba.</p>
   ${PRODUTOS.map(gr=>`
     <div class="macro-divider">${gr.g}</div>
-    <div class="prod-grid ${gr.wide?'wide':''} ${gr.cls?'g-'+gr.cls:''}">${gr.itens.map(([t,d,u,atual])=>`
+    <div class="prod-grid ${gr.wide?'wide':''} ${gr.cls?'g-'+gr.cls:''}">${gr.itens.map(([t,d,u,atual,ic])=>`
       <a class="prod ${atual?'atual':''}" href="${u}" target="_blank" rel="noopener">
-        ${gr.logo?`<img class="prod-logo" src="${FIGS[gr.logo]}" alt="Força Especializada SEDEC-RJ">`:`<span class="prod-ic">${icon(gr.icon)}</span>`}
+        ${gr.logo?`<img class="prod-logo" src="${FIGS[gr.logo]}" alt="Força Especializada SEDEC-RJ">`:`<span class="prod-ic">${icon(ic||gr.icon)}</span>`}
         <span class="prod-tx"><strong>${t}</strong>${d?`<span>${d}</span>`:''}</span>
         <span class="prod-go">${atual?'<em>você está aqui</em>':icon('external')}</span>
       </a>`).join('')}</div>`).join('')}
